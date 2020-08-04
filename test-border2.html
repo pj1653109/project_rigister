@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script type="text/javascript">
+		
+		document.addEventListener('plusready', function(){
+			//console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。")
+			
+		});
+		
+	</script>
+    <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.min.js"></script>
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.15/"></script>
+    <script src="js/map.js" type="text/javascript"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/lc_switch.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/lc_switch.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/lc_switch.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/player.css?version=19.2.4.1">
+    <title>Loading Online Map</title>
+</head>
+
+<body>
+    <!-- map -->
+    <div id="viewDiv"></div>
+    <!-- input -->
+    <div class="middle">
+        <div class="btn btn-primary btn-ghost btn-border-stroke ">
+            <div class="type-ahead" id="input-border">
+                <input type="text" value="" class="search type-ahead__input" id="inputTxt" placeholder="输入关键词..." />
+                <span>
+                    <svg id="findBtn" class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                        fill-rule="evenodd" clip-rule="evenodd">
+                        <path
+                            d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z">
+                        </path>
+                    </svg>
+                </span>
+            </div>
+
+            <div class="btn-borders">
+                <div class="border-top"></div>
+                <div class="border-right"></div>
+                <div class="border-bottom"></div>
+                <div class="border-left"></div>
+            </div>
+        </div>
+
+        <!-- loading -->
+        <div id="loading3">
+            <div class="demo3"></div>
+            <div class="demo3"></div>
+            <div class="demo3"></div>
+            <div class="demo3"></div>
+            <div class="demo3"></div>
+            <div class="demo3"></div>
+            <div class="demo3"></div>
+            <div class="demo3"></div>
+        </div>
+    </div>
+    <!-- 遮罩 -->
+    <div class="onshow" id="marker"></div>
+    <!-- 弹窗 -->
+    <div class="container">
+        <div class="phone">
+            <!-- 箭头 -->
+            <div class="navigator" style="display: block;">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="myset" viewBox="0 0 160 160" width="50">
+                    <polyline id="mychild" points="40,60 80,100 120,60" stroke="black" stroke-opacity="0.5"
+                        stroke-width="10" fill="transparent" stroke-linejoin="round" stroke-linecap="round"></polyline>
+                </svg>
+            </div>
+            <div class="font">管理/批量管理</div>
+            <div class="theme"></div>
+            <div class="demo">
+                <div class="button" id="button">视频选择</div>
+                <!-- 开关按钮 -->
+                <p>
+                    <input type="checkbox" name="check-1" value="4" class="lcs_check" autocomplete="off" />
+                </p>
+            </div>
+        </div>
+        <!-- 视频列表 -->
+        <div class="phone1">
+            <!-- 关闭图标 -->
+            <div class="icon iconfont icon-close" id="closed"></div>
+            <!--<div class="box1">
+                <div class="icon iconfont icon-icon_play " id="font-size"></div>
+                <span id="video">视频1</span>
+            </div>-->
+        </div>
+        <!-- 弹窗遮罩出现 -->
+        <div id="onshow1"></div>
+    </div>
+    <!-- 视频播放器 -->
+    <div id="video-div" style="display: none; width: 100%; height: auto; z-index: 999;background-color: black;">
+        <video id="my-video" poster="source/0.jpg" preload="metadata" width="100%" height=auto>
+            <source src="source/0.mp4" type="video/mp4">
+        </video>
+
+        <div class="play-one" style="display: none;z-index: 999;"></div>
+        <div class="yinyin yinyin-on" style="display: none;z-index: 999;">
+            <div class="play-footer">
+                <div class="progress">
+                    <span class="timeBar"></span>
+                </div>
+                <div class="play-btn stop"></div>
+                <div class="time">
+                    <span id="currentTime">00:00</span>
+                    <span>/</span>
+                    <span id="duration">00:00</span>
+                </div>
+                <div class="right-bottom">
+                    <div class="bottom all"></div>
+                    <div class="bottom loop" id="loop"></div>
+                    <div class="bottom set">
+                        <div class="set-list">
+                            <div class="play-speed">播放速度</div>
+                            <div class="play-speed-list">
+                                <span id="speed05Btn">X0.5</span>
+                                <span class="moren" id="speed1Btn">X1</span>
+                                <span id="speed2Btn">X2</span>
+                            </div>
+                        </div>
+                        <div class="konge1"></div>
+                    </div>
+                    <div class="bottom huazhi">自动</div>
+                    <div class="bottom sound" id="soundBtn">
+                        <div class="sound-list">
+                            <div class="sound-number">90</div>
+                            <div class="volume">
+                                <span class="volumeBar"></span>
+                            </div>
+                        </div>
+                        <div class="konge"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="player-list">
+            <div class="player-list-bk">
+                <div class="player-list-head">播放列表</div>
+                <div class="player-list-cotent">
+                    <div class="player-list-box">
+                        <div class="player-list-video video-now">播放列表支持</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="js/video.js" type="text/javascript"></script>
+<script src="js/player.js?version=19.2.4.1" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
+
+</html>
